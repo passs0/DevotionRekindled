@@ -1,0 +1,12 @@
+# Ignore temporary debug logs and local scratch test binaries
+*.log
+*.txt
+*.py
+test_*
+inspect_*
+list_devs*
+sample_inputs*
+main_test*
+libtest_interpose.dylib
+*_working_v1*
+.DS_Store
