@@ -32,7 +32,7 @@ This project provides a standalone macOS launcher app (**`Devotion (DualSense).a
 1. **Install the Base Game**:
    Ensure *Devotion* is installed at `/Applications/Devotion.app`.
 2. **Download the Release App**:
-   Go to the [**Releases**](https://github.com/hsuehpascal/devotion-dualsense/releases) page and download **`Devotion-DualSense-v1.0.0-macOS.zip`**.
+   Go to the [**Releases**](https://github.com/passs0/devotion-dualsense/releases) page and download **`Devotion-DualSense-v1.0.0-macOS.zip`**.
 3. **Move to Applications**:
    Unzip the archive and drag **`Devotion (DualSense).app`** into your **`/Applications`** folder.
 4. **First-Launch Gatekeeper Clearance (macOS)**:
@@ -49,7 +49,7 @@ This project provides a standalone macOS launcher app (**`Devotion (DualSense).a
 ### 🛠️ Alternative: Build from Source or Launch via CLI
 If you prefer to build the universal (`x86_64` + `arm64`) binary and `.app` bundle from source:
 ```bash
-git clone https://github.com/hsuehpascal/devotion-dualsense.git
+git clone https://github.com/passs0/devotion-dualsense.git
 cd devotion-dualsense
 
 # Build libds4_shim.dylib and "Devotion (DualSense).app"
@@ -109,7 +109,7 @@ You can also launch the game directly from the terminal using the included scrip
 1. **確認主程式位置**：
    請先確認《還願》主程式已安裝於 `/Applications/Devotion.app`。
 2. **下載 Release 應用程式**：
-   前往本專案的 [**Releases**](https://github.com/hsuehpascal/devotion-dualsense/releases) 頁面，下載 **`Devotion-DualSense-v1.0.0-macOS.zip`**。
+   前往本專案的 [**Releases**](https://github.com/passs0/devotion-dualsense/releases) 頁面，下載 **`Devotion-DualSense-v1.0.0-macOS.zip`**。
 3. **移至「應用程式」資料夾**：
    解壓縮後，將 **`Devotion (DualSense).app`** 拖曳至您的 **`/Applications`（應用程式）** 資料夾中。
 4. **首次執行解除 macOS 隔離屬性**：
@@ -126,7 +126,7 @@ You can also launch the game directly from the terminal using the included scrip
 ### 🛠️ 進階選項：從原始碼編譯或使用終端機腳本啟動
 若您希望自行從原始碼編譯通用架構（`x86_64` + `arm64`）動態庫與 `.app` 應用程式：
 ```bash
-git clone https://github.com/hsuehpascal/devotion-dualsense.git
+git clone https://github.com/passs0/devotion-dualsense.git
 cd devotion-dualsense
 
 # 編譯 libds4_shim.dylib 與 "Devotion (DualSense).app"
