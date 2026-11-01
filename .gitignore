@@ -1,7 +1,8 @@
-# Ignore temporary debug logs and local scratch test binaries
+# Ignore temporary debug logs, release archives, and local scratch test binaries
 *.log
 *.txt
 *.py
+*.zip
 test_*
 inspect_*
 list_devs*
