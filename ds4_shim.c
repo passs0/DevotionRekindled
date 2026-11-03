@@ -652,22 +652,108 @@ typedef uint8_t (*GetButton_fn)(void *name);
 typedef float (*GetAxis_fn)(void *name);
 typedef uint8_t (*GetAnyKey_fn)(void);
 typedef int (*GetFrameCount_fn)(void);
+typedef void (*SetInt_fn)(int val);
+typedef int (*GetInt_fn)(void);
+typedef void (*SetResolution_fn)(int width, int height, int fullscreenMode, int preferredRefreshRate);
 
-static GetJoystickNames_fn orig_GetJoystickNames = NULL;
-static GetKeyInt_fn        orig_GetKeyInt        = NULL;
-static GetKeyInt_fn        orig_GetKeyDownInt    = NULL;
-static GetKeyInt_fn        orig_GetKeyUpInt      = NULL;
-static GetKeyString_fn     orig_GetKeyString     = NULL;
-static GetKeyString_fn     orig_GetKeyDownString = NULL;
-static GetKeyString_fn     orig_GetKeyUpString   = NULL;
-static GetButton_fn        orig_GetButton        = NULL;
-static GetButton_fn        orig_GetButtonDown    = NULL;
-static GetButton_fn        orig_GetButtonUp      = NULL;
-static GetAxis_fn          orig_GetAxisRaw       = NULL;
-static GetAxis_fn          orig_GetAxis          = NULL;
-static GetAnyKey_fn        orig_get_anyKey       = NULL;
-static GetAnyKey_fn        orig_get_anyKeyDown   = NULL;
-static GetFrameCount_fn    orig_get_frameCount   = NULL;
+static GetJoystickNames_fn orig_GetJoystickNames    = NULL;
+static GetKeyInt_fn        orig_GetKeyInt           = NULL;
+static GetKeyInt_fn        orig_GetKeyDownInt       = NULL;
+static GetKeyInt_fn        orig_GetKeyUpInt         = NULL;
+static GetKeyString_fn     orig_GetKeyString        = NULL;
+static GetKeyString_fn     orig_GetKeyDownString    = NULL;
+static GetKeyString_fn     orig_GetKeyUpString      = NULL;
+static GetButton_fn        orig_GetButton           = NULL;
+static GetButton_fn        orig_GetButtonDown       = NULL;
+static GetButton_fn        orig_GetButtonUp         = NULL;
+static GetAxis_fn          orig_GetAxisRaw          = NULL;
+static GetAxis_fn          orig_GetAxis             = NULL;
+static GetAnyKey_fn        orig_get_anyKey          = NULL;
+static GetAnyKey_fn        orig_get_anyKeyDown      = NULL;
+static GetFrameCount_fn    orig_get_frameCount      = NULL;
+static SetInt_fn           orig_set_targetFrameRate = NULL;
+static SetInt_fn           orig_set_vSyncCount      = NULL;
+static GetInt_fn           orig_get_width           = NULL;
+static GetInt_fn           orig_get_height          = NULL;
+static GetInt_fn           orig_get_fullScreenMode  = NULL;
+static SetResolution_fn    orig_SetResolution       = NULL;
+
+/* FPS & Retina Resolution Booster state */
+static int  g_target_fps = 120;
+static int  g_max_render_width = 1920;
+static bool g_fps_boost_applied = false;
+static bool g_in_set_resolution = false;
+
+static void my_set_targetFrameRate(int val) {
+    int target = g_target_fps;
+    log_msg("[ds4_shim] FPS Booster: Game requested targetFrameRate=%d -> overriding to %d FPS\n", val, target);
+    if (orig_set_targetFrameRate) {
+        orig_set_targetFrameRate(target);
+    }
+}
+
+static void my_set_vSyncCount(int val) {
+    log_msg("[ds4_shim] FPS Booster: Game requested vSyncCount=%d -> overriding to 0 (uncapped/ProMotion)\n", val);
+    if (orig_set_vSyncCount) {
+        orig_set_vSyncCount(0);
+    }
+    if (orig_set_targetFrameRate) {
+        orig_set_targetFrameRate(g_target_fps);
+    }
+}
+
+static void my_SetResolution(int width, int height, int fullscreenMode, int preferredRefreshRate) {
+    if (!orig_SetResolution) return;
+    if (g_in_set_resolution) {
+        orig_SetResolution(width, height, fullscreenMode, preferredRefreshRate);
+        return;
+    }
+    int new_w = width;
+    int new_h = height;
+    if (g_max_render_width > 0 && width > g_max_render_width && height > 0) {
+        new_w = g_max_render_width;
+        new_h = (int)((float)height * ((float)g_max_render_width / (float)width) + 0.5f);
+        /* Keep height even for Metal framebuffer alignment */
+        if (new_h & 1) new_h++;
+    }
+    int new_rate = (preferredRefreshRate < g_target_fps && g_target_fps > 0) ? g_target_fps : preferredRefreshRate;
+    log_msg("[ds4_shim] FPS Booster: Screen.SetResolution(%dx%d, mode=%d, rate=%d) -> optimized to (%dx%d, mode=%d, rate=%d)\n",
+            width, height, fullscreenMode, preferredRefreshRate, new_w, new_h, fullscreenMode, new_rate);
+    g_in_set_resolution = true;
+    orig_SetResolution(new_w, new_h, fullscreenMode, new_rate);
+    g_in_set_resolution = false;
+}
+
+static void apply_fps_boost_once(void) {
+    if (g_fps_boost_applied) return;
+    g_fps_boost_applied = true;
+
+    const char *env_fps = getenv("DS4_TARGET_FPS");
+    if (env_fps && env_fps[0]) {
+        g_target_fps = atoi(env_fps);
+    }
+    const char *env_maxw = getenv("DS4_MAX_WIDTH");
+    if (env_maxw && env_maxw[0]) {
+        g_max_render_width = atoi(env_maxw);
+    }
+
+    if (orig_set_vSyncCount) {
+        orig_set_vSyncCount(0);
+    }
+    if (orig_set_targetFrameRate) {
+        orig_set_targetFrameRate(g_target_fps);
+    }
+    if (orig_SetResolution && orig_get_width && orig_get_height && g_max_render_width > 0) {
+        int cur_w = orig_get_width();
+        int cur_h = orig_get_height();
+        int mode  = orig_get_fullScreenMode ? orig_get_fullScreenMode() : 1; /* 1 = FullScreenWindow */
+        if (cur_w > g_max_render_width && cur_h > 0) {
+            my_SetResolution(cur_w, cur_h, mode, g_target_fps);
+        }
+    }
+    log_msg("[ds4_shim] FPS Booster active: targetFrameRate=%d, vSync=0, maxRenderWidth=%d\n",
+            g_target_fps, g_max_render_width);
+}
 
 /* Per-Unity-frame button & D-Pad transition state */
 static int     g_last_unity_frame = -1;
@@ -684,6 +770,10 @@ static void sync_unity_frame_state(void) {
         return;
     }
     g_last_unity_frame = cur_frame;
+
+    if (!g_fps_boost_applied && cur_frame >= 1) {
+        apply_fps_boost_once();
+    }
 
     for (int u = 1; u <= 14; u++) {
         uint8_t prev = g_frame_btn_held[u];
@@ -810,21 +900,13 @@ typedef struct {
 
 static bool mono_str_to_ascii(void *mono_str, char *buf, size_t buf_sz) {
     if (!mono_str || buf_sz == 0) return false;
-    if (real_mono_string_to_utf8 && real_mono_free) {
-        char *u8 = real_mono_string_to_utf8(mono_str);
-        if (u8) {
-            strncpy(buf, u8, buf_sz - 1);
-            buf[buf_sz - 1] = '\0';
-            real_mono_free(u8);
-            return true;
-        }
-    }
     MonoStringLayout *ms = (MonoStringLayout *)mono_str;
-    if (ms->length <= 0 || ms->length >= (int32_t)buf_sz) return false;
-    for (int32_t i = 0; i < ms->length; i++) {
+    int32_t len = ms->length;
+    if (len <= 0 || len >= (int32_t)buf_sz) return false;
+    for (int32_t i = 0; i < len; i++) {
         buf[i] = (char)(ms->chars[i] & 0x7F);
     }
-    buf[ms->length] = '\0';
+    buf[len] = '\0';
     return true;
 }
 
@@ -1115,6 +1197,27 @@ static void my_mono_add_internal_call(const char *name, const void *method) {
             log_msg("[ds4_shim] Hooked Mono icall: %s\n", name);
         } else if (strcmp(name, "UnityEngine.Time::get_frameCount") == 0) {
             orig_get_frameCount = (GetFrameCount_fn)method;
+            log_msg("[ds4_shim] Captured Mono icall: %s\n", name);
+        } else if (strcmp(name, "UnityEngine.Application::set_targetFrameRate") == 0) {
+            orig_set_targetFrameRate = (SetInt_fn)method;
+            method = (const void *)my_set_targetFrameRate;
+            log_msg("[ds4_shim] Hooked Mono icall (FPS Booster): %s\n", name);
+        } else if (strcmp(name, "UnityEngine.QualitySettings::set_vSyncCount") == 0) {
+            orig_set_vSyncCount = (SetInt_fn)method;
+            method = (const void *)my_set_vSyncCount;
+            log_msg("[ds4_shim] Hooked Mono icall (FPS Booster): %s\n", name);
+        } else if (strcmp(name, "UnityEngine.Screen::SetResolution") == 0) {
+            orig_SetResolution = (SetResolution_fn)method;
+            method = (const void *)my_SetResolution;
+            log_msg("[ds4_shim] Hooked Mono icall (FPS Booster): %s\n", name);
+        } else if (strcmp(name, "UnityEngine.Screen::get_width") == 0) {
+            orig_get_width = (GetInt_fn)method;
+            log_msg("[ds4_shim] Captured Mono icall: %s\n", name);
+        } else if (strcmp(name, "UnityEngine.Screen::get_height") == 0) {
+            orig_get_height = (GetInt_fn)method;
+            log_msg("[ds4_shim] Captured Mono icall: %s\n", name);
+        } else if (strcmp(name, "UnityEngine.Screen::get_fullScreenMode") == 0) {
+            orig_get_fullScreenMode = (GetInt_fn)method;
             log_msg("[ds4_shim] Captured Mono icall: %s\n", name);
         }
     }
