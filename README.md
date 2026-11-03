@@ -33,7 +33,7 @@ This project provides a standalone macOS launcher app (**`Devotion (DualSense).a
 1. **Install the Base Game**:
    Ensure *Devotion* is installed at `/Applications/Devotion.app`.
 2. **Download the Release App**:
-   Go to the [**Releases**](https://github.com/passs0/devotion-dualsense/releases) page and download **`Devotion-DualSense-v1.1.0-macOS.zip`**.
+   Go to the [**Releases**](https://github.com/passs0/devotion-dualsense/releases) page and download **`Devotion-DualSense-v1.1.1-macOS.zip`**.
 3. **Move to Applications**:
    Unzip the archive and drag **`Devotion (DualSense).app`** into your **`/Applications`** folder.
 4. **First-Launch Gatekeeper Clearance (macOS)**:
@@ -120,7 +120,7 @@ You can also launch the game directly from the terminal using the included scrip
 1. **確認主程式位置**：
    請先確認《還願》主程式已安裝於 `/Applications/Devotion.app`。
 2. **下載 Release 應用程式**：
-   前往本專案的 [**Releases**](https://github.com/passs0/devotion-dualsense/releases) 頁面，下載 **`Devotion-DualSense-v1.1.0-macOS.zip`**。
+   前往本專案的 [**Releases**](https://github.com/passs0/devotion-dualsense/releases) 頁面，下載 **`Devotion-DualSense-v1.1.1-macOS.zip`**。
 3. **移至「應用程式」資料夾**：
    解壓縮後，將 **`Devotion (DualSense).app`** 拖曳至您的 **`/Applications`（應用程式）** 資料夾中。
 4. **首次執行解除 macOS 隔離屬性**：
