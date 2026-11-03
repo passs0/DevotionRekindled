@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="icon.png" width="180" alt="Devotion (DualSense) App Icon" />
+  <img src="icon.png" width="180" alt="DevotionRekindled App Icon" />
 </p>
 
 <h1 align="center">
-  Devotion: Rekindled — macOS Wireless DualSense & 120Hz ProMotion Mod<br/>
-  <sub>《還願 Devotion：重燃》macOS 無線 PS5 DualSense 控制器轉接層 ＆ 120Hz 畫面更新率強化模組</sub>
+  DevotionRekindled<br/>
+  <sub>macOS Wireless PS5 DualSense Bridge & 120Hz ProMotion Mod for <em>Devotion</em><br/>《還願 Devotion》macOS 無線 PS5 DualSense 控制器轉接層 ＆ 120Hz 畫面更新率強化模組</sub>
 </h1>
 
 > 🤖 **AI-Generated Project Notice / AI 全自動生成專案聲明**
@@ -24,7 +24,7 @@ When playing on a modern Mac with a **Sony PlayStation 5 DualSense Wireless Cont
 2. **Encapsulated Bluetooth HID Reports**: On macOS Bluetooth, DualSense encapsulates its full 78-byte Report `0x31` payload (buttons, D-Pad hat switch, right stick, triggers, and hardware sequence counter) inside a 77-byte vendor-defined HID element (`UsagePage 0xFF00`, `Usage 0x3B`), causing standard `IOHIDDeviceGetValue` / `IOHIDValueGetIntegerValue` queries on individual button and axis elements to return `0`.
 3. **Retina Resolution GPU Bottleneck & VSync Stutter**: On Apple Silicon Retina displays (e.g., `3024×1964` or `3456×2234` = ~6–7.7 million pixels), Unity renders deferred lighting, volumetric fog, SSAO, and shadows at full native Retina pixel density while double-buffered VSync drops any frame that misses the 16.6ms window down to 30 FPS.
 
-**Devotion: Rekindled** provides a standalone macOS launcher app (**`Devotion (DualSense).app`**) powered by a **zero-modification, non-invasive dynamic library shim** (`libds4_shim.dylib`) injected via `DYLD_INSERT_LIBRARIES`. **No files inside `/Applications/Devotion.app` are modified.**
+**DevotionRekindled** provides a standalone macOS launcher app (**`DevotionRekindled.app`**) powered by a **zero-modification, non-invasive dynamic library shim** (`libds4_shim.dylib`) injected via `DYLD_INSERT_LIBRARIES`. **No files inside `/Applications/Devotion.app` are modified.**
 
 ---
 
@@ -33,17 +33,17 @@ When playing on a modern Mac with a **Sony PlayStation 5 DualSense Wireless Cont
 1. **Install the Base Game**:
    Ensure *Devotion* is installed at `/Applications/Devotion.app`.
 2. **Download the Release App**:
-   Go to the [**Releases**](https://github.com/passs0/devotion-rekindled/releases) page and download **`Devotion-Rekindled-v1.1.2-macOS.zip`**.
+   Go to the [**Releases**](https://github.com/passs0/DevotionRekindled/releases) page and download **`DevotionRekindled-v1.1.3-macOS.zip`**.
 3. **Move to Applications**:
-   Unzip the archive and drag **`Devotion (DualSense).app`** into your **`/Applications`** folder.
+   Unzip the archive and drag **`DevotionRekindled.app`** into your **`/Applications`** folder.
 4. **First-Launch Gatekeeper Clearance (macOS)**:
    Because the app is ad-hoc signed without a paid Apple Developer ID certificate, run the following command once in Terminal (or right-click -> **Open**) to clear the macOS download quarantine attribute:
    ```bash
-   xattr -cr "/Applications/Devotion (DualSense).app"
+   xattr -cr /Applications/DevotionRekindled.app
    ```
 5. **Connect & Play**:
    - Pair and wake up your **PS5 DualSense Wireless Controller** via Bluetooth in macOS System Settings.
-   - Launch **`Devotion (DualSense)`** directly from **Applications**, **Launchpad**, **Spotlight**, or your **Dock**!
+   - Launch **`DevotionRekindled`** directly from **Applications**, **Launchpad**, **Spotlight**, or your **Dock**!
 
 ---
 
@@ -59,13 +59,13 @@ When playing on a modern Mac with a **Sony PlayStation 5 DualSense Wireless Cont
 ### 🛠️ Alternative: Build from Source or Launch via CLI
 If you prefer to build the universal (`x86_64` + `arm64`) binary and `.app` bundle from source:
 ```bash
-git clone https://github.com/passs0/devotion-rekindled.git
-cd devotion-rekindled
+git clone https://github.com/passs0/DevotionRekindled.git
+cd DevotionRekindled
 
-# Build libds4_shim.dylib and "Devotion (DualSense).app"
+# Build libds4_shim.dylib and DevotionRekindled.app
 make
 
-# Copy "Devotion (DualSense).app" directly into /Applications
+# Copy DevotionRekindled.app directly into /Applications
 make install
 ```
 You can also launch the game directly from the terminal using the included script:
@@ -111,7 +111,7 @@ You can also launch the game directly from the terminal using the included scrip
 2. **藍牙 HID 報告封裝結構差異**：在 macOS 藍牙模式下，DualSense 會將完整的 78-byte `0x31` 藍牙輸入資料（包含所有按鍵、十字鍵、右類比搖桿、L2/R2 扳機鍵與硬體遞增序號）封裝於 77-byte 的廠商自訂 HID 元件（`UsagePage 0xFF00`、`Usage 0x3B`）中，導致標準 IOKit `IOHIDDeviceGetValue` 與 `IOHIDValueGetIntegerValue` 讀取個別按鍵與軸向時永遠回傳 `0`。
 3. **Retina 高解析度算繪瓶頸與 VSync 掉格卡頓**：在 MacBook Pro 的 Liquid Retina XDR 螢幕（如 `3024×1964` 或 `3456×2234`，高達 600～770 萬像素）下，Unity 預設以原生超高像素密度運算延遲光照、體積霧與陰影；加上雙緩衝垂直同步（Double-Buffered VSync）只要單一影格超過 16.6ms，就會直接將畫面更新率腰斬至 30 FPS。
 
-《**Devotion: Rekindled（還願：重燃）**》提供獨立封裝的 macOS 啟動器應用程式（**`Devotion (DualSense).app`**），內建 `libds4_shim.dylib` 動態連結函式庫轉接層與 120Hz 效能最佳化引擎，於記憶體中即時完成 DualSense 藍牙封包解碼、DualShock 4 硬體偽裝與 ProMotion 高畫面更新率最佳化，**完全不會修改 `/Applications/Devotion.app` 內的任何遊戲原始檔案**（已於實機完整通關全遊戲驗證）。
+**DevotionRekindled** 提供獨立封裝的 macOS 啟動器應用程式（**`DevotionRekindled.app`**），內建 `libds4_shim.dylib` 動態連結函式庫轉接層與 120Hz 效能最佳化引擎，於記憶體中即時完成 DualSense 藍牙封包解碼、DualShock 4 硬體偽裝與 ProMotion 高畫面更新率最佳化，**完全不會修改 `/Applications/Devotion.app` 內的任何遊戲原始檔案**（已於實機完整通關全遊戲驗證）。
 
 ---
 
@@ -120,17 +120,17 @@ You can also launch the game directly from the terminal using the included scrip
 1. **確認主程式位置**：
    請先確認《還願》主程式已安裝於 `/Applications/Devotion.app`。
 2. **下載 Release 應用程式**：
-   前往本專案的 [**Releases**](https://github.com/passs0/devotion-rekindled/releases) 頁面，下載 **`Devotion-Rekindled-v1.1.2-macOS.zip`**。
+   前往本專案的 [**Releases**](https://github.com/passs0/DevotionRekindled/releases) 頁面，下載 **`DevotionRekindled-v1.1.3-macOS.zip`**。
 3. **移至「應用程式」資料夾**：
-   解壓縮後，將 **`Devotion (DualSense).app`** 拖曳至您的 **`/Applications`（應用程式）** 資料夾中。
+   解壓縮後，將 **`DevotionRekindled.app`** 拖曳至您的 **`/Applications`（應用程式）** 資料夾中。
 4. **首次執行解除 macOS 隔離屬性**：
    由於此應用程式使用本機 Ad-hoc 簽章，首次開啟前請於「終端機（Terminal）」執行以下指令以移除下載隔離屬性：
    ```bash
-   xattr -cr "/Applications/Devotion (DualSense).app"
+   xattr -cr /Applications/DevotionRekindled.app
    ```
 5. **連接手把並開始遊戲**：
    - 透過 macOS「系統設定」→「藍牙」配對並喚醒您的 **PS5 DualSense 無線控制器**。
-   - 直接從 **「應用程式（Applications）」**、**Launchpad**、**Spotlight** 或 **Dock** 點擊開啟 **`Devotion (DualSense)`**，即可使用無線 DualSense 以 120Hz 高畫面更新率流暢遊玩！
+   - 直接從 **「應用程式（Applications）」**、**Launchpad**、**Spotlight** 或 **Dock** 點擊開啟 **`DevotionRekindled`**，即可使用無線 DualSense 以 120Hz 高畫面更新率流暢遊玩！
 
 ---
 
@@ -144,13 +144,13 @@ You can also launch the game directly from the terminal using the included scrip
 ### 🛠️ 進階選項：從原始碼編譯或使用終端機腳本啟動
 若您希望自行從原始碼編譯通用執行檔架構（Universal Binary：`x86_64` + `arm64`）動態連結函式庫（`.dylib`）與 `.app` 應用程式：
 ```bash
-git clone https://github.com/passs0/devotion-rekindled.git
-cd devotion-rekindled
+git clone https://github.com/passs0/DevotionRekindled.git
+cd DevotionRekindled
 
-# 編譯 libds4_shim.dylib 與 "Devotion (DualSense).app"
+# 編譯 libds4_shim.dylib 與 DevotionRekindled.app
 make
 
-# 將 "Devotion (DualSense).app" 安裝至 /Applications
+# 將 DevotionRekindled.app 安裝至 /Applications
 make install
 ```
 亦可在終端機直接透過啟動腳本執行：

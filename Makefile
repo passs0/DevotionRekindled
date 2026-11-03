@@ -5,9 +5,9 @@ FRAMEWORKS = -framework Foundation -framework GameController -framework CoreFoun
 SHIM_TARGET = libds4_shim.dylib
 SHIM_SRC = ds4_shim.c
 
-APP_BUNDLE = Devotion (DualSense).app
+APP_BUNDLE = DevotionRekindled.app
 LAUNCHER_SRC = launcher.c
-LAUNCHER_BIN = $(APP_BUNDLE)/Contents/MacOS/DevotionLauncher
+LAUNCHER_BIN = $(APP_BUNDLE)/Contents/MacOS/DevotionRekindled
 
 all: $(SHIM_TARGET) app
 
