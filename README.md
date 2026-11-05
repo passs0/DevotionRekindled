@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icon.png" width="180" alt="DevotionRekindled App Icon" />
+  <img src="icon.png" width="160" height="160" alt="DevotionRekindled App Icon" />
 </p>
 
 <h1 align="center">
