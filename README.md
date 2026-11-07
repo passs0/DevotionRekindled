@@ -7,6 +7,15 @@
   <sub>macOS Wireless PS5 DualSense Bridge & 120Hz ProMotion Mod for <em>Devotion</em><br/>《還願 Devotion》macOS 無線 PS5 DualSense 控制器轉接層 ＆ 120Hz 畫面更新率強化模組</sub>
 </h1>
 
+<p align="center">
+  <a href="https://github.com/passs0/DevotionRekindled/releases/latest"><img src="https://img.shields.io/github/v/release/passs0/DevotionRekindled?label=Latest%20Release&color=007AFF" alt="Latest Release" /></a>
+  <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%26%20Intel-black?logo=apple" alt="macOS" />
+  <img src="https://img.shields.io/badge/framework-IOKit%20%7C%20GameController%20%7C%20C-blue" alt="Frameworks" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" /></a>
+</p>
+
+---
+
 > 🤖 **AI-Generated Project Notice / AI 全自動生成專案聲明**
 >
 > - **English**: **100% of the code, reverse engineering, low-level IOKit/Mono/Objective-C runtime interposition architecture, FPS booster, app bundle, icon, and documentation in this repository were generated entirely by AI (Google DeepMind Antigravity). Human involvement was strictly limited to in-game playtesting (verified through a full end-to-end game completion).**
