@@ -41,10 +41,10 @@ When playing on a modern Mac with a **Sony PlayStation 5 DualSense Wireless Cont
 
 1. **Install the Base Game**:
    Ensure *Devotion* is installed at `/Applications/Devotion.app`.
-2. **Download the Release App**:
-   Go to the [**Releases**](https://github.com/passs0/DevotionRekindled/releases) page and download **`DevotionRekindled-v1.1.3-macOS.zip`**.
-3. **Move to Applications**:
-   Unzip the archive and drag **`DevotionRekindled.app`** into your **`/Applications`** folder.
+2. **Download the Release Disk Image**:
+   Go to the [**Releases**](https://github.com/passs0/DevotionRekindled/releases) page and download **`DevotionRekindled-v1.1.3.dmg`**.
+3. **Drag to Applications Folder**:
+   Open the downloaded `.dmg` and drag **`DevotionRekindled.app`** directly into the **`Applications`** folder shortcut.
 4. **First-Launch Gatekeeper Clearance (macOS)**:
    Because the app is ad-hoc signed without a paid Apple Developer ID certificate, run the following command once in Terminal (or right-click -> **Open**) to clear the macOS download quarantine attribute:
    ```bash
@@ -128,10 +128,10 @@ You can also launch the game directly from the terminal using the included scrip
 
 1. **確認主程式位置**：
    請先確認《還願》主程式已安裝於 `/Applications/Devotion.app`。
-2. **下載 Release 應用程式**：
-   前往本專案的 [**Releases**](https://github.com/passs0/DevotionRekindled/releases) 頁面，下載 **`DevotionRekindled-v1.1.3-macOS.zip`**。
-3. **移至「應用程式」資料夾**：
-   解壓縮後，將 **`DevotionRekindled.app`** 拖曳至您的 **`/Applications`（應用程式）** 資料夾中。
+2. **下載 Release 磁碟映像檔**：
+   前往本專案的 [**Releases**](https://github.com/passs0/DevotionRekindled/releases) 頁面，下載 **`DevotionRekindled-v1.1.3.dmg`**。
+3. **拖曳至「應用程式」資料夾**：
+   開啟下載的 `.dmg` 檔案，將 **`DevotionRekindled.app`** 直接拖曳至 **`Applications`** 捷徑中。
 4. **首次執行解除 macOS 隔離屬性**：
    由於此應用程式使用本機 Ad-hoc 簽章，首次開啟前請於「終端機（Terminal）」執行以下指令以移除下載隔離屬性：
    ```bash

@@ -11,3 +11,5 @@ main_test*
 libtest_interpose.dylib
 *_working_v1*
 .DS_Store
+
+*.dmg
