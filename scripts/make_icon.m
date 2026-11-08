@@ -11,7 +11,8 @@ int main(int argc, const char * argv[]) {
         unsigned char *stockBytes = [stockRep bitmapData];
 
         // 2. Load the full-bleed Liquid Glass controller artwork
-        NSImage *srcImg = [[NSImage alloc] initWithContentsOfFile:@"/Users/pascal/.gemini/antigravity/brain/2339c7e0-0879-41fd-98dd-9978a24288ed/devotion_fullbleed_liquid_glass_icon_1793699404491.jpg"];
+        NSString *srcPath = (argc > 1) ? [NSString stringWithUTF8String:argv[1]] : @"icon.png";
+        NSImage *srcImg = [[NSImage alloc] initWithContentsOfFile:srcPath];
         NSBitmapImageRep *artRep = [[NSBitmapImageRep alloc]
             initWithBitmapDataPlanes:NULL
                           pixelsWide:S
