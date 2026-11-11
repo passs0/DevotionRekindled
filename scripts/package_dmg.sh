@@ -23,22 +23,26 @@ echo "📦 Preparing staging files..."
 cp -R "$APP_NAME.app" "$STAGING_DIR/$APP_NAME.app"
 ln -s /Applications "$STAGING_DIR/Applications"
 
-echo "💿 Creating temporary read-write disk image..."
-hdiutil create -srcfolder "$STAGING_DIR" -volname "$APP_NAME" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW "$RW_DMG" -ov
+if [ -n "${CI:-}" ]; then
+    echo "🤖 CI detected: packaging DMG headlessly..."
+    hdiutil create -volname "$APP_NAME" -srcfolder "$STAGING_DIR" -ov -format UDZO "$DMG_NAME"
+else
+    echo "💿 Creating temporary read-write disk image..."
+    hdiutil create -srcfolder "$STAGING_DIR" -volname "$APP_NAME" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW "$RW_DMG" -ov
 
-echo "🔌 Mounting read-write disk image..."
-MOUNT_INFO=$(hdiutil attach -readwrite -noverify -noautoopen "$RW_DMG")
-MOUNT_DIR=$(echo "$MOUNT_INFO" | grep -o '/Volumes/.*' | head -n 1)
+    echo "🔌 Mounting read-write disk image..."
+    MOUNT_INFO=$(hdiutil attach -readwrite -noverify -noautoopen "$RW_DMG")
+    MOUNT_DIR=$(echo "$MOUNT_INFO" | grep -o '/Volumes/.*' | head -n 1)
 
-if [ -z "$MOUNT_DIR" ]; then
-    echo "❌ Failed to mount read-write disk image."
-    exit 1
-fi
+    if [ -z "$MOUNT_DIR" ]; then
+        echo "❌ Failed to mount read-write disk image."
+        exit 1
+    fi
 
-echo "Mounted at: $MOUNT_DIR"
+    echo "Mounted at: $MOUNT_DIR"
 
-echo "🎨 Customizing Finder presentation..."
-osascript << APPLESCRIPT || true
+    echo "🎨 Customizing Finder presentation..."
+    osascript << APPLESCRIPT || true
 tell application "Finder"
     tell disk "$APP_NAME"
         open
@@ -58,14 +62,15 @@ tell application "Finder"
 end tell
 APPLESCRIPT
 
-sync
-sleep 2
+    sync
+    sleep 2
 
-echo "⏏️ Ejecting disk image..."
-diskutil eject "$MOUNT_DIR" || hdiutil detach "$MOUNT_DIR" -force
+    echo "⏏️ Ejecting disk image..."
+    diskutil eject "$MOUNT_DIR" || hdiutil detach "$MOUNT_DIR" -force
 
-echo "🗜️ Converting to compressed, read-only DMG ($DMG_NAME)..."
-hdiutil convert "$RW_DMG" -format UDZO -imagekey zlib-level=9 -o "$DMG_NAME" -ov
+    echo "🗜️ Converting to compressed, read-only DMG ($DMG_NAME)..."
+    hdiutil convert "$RW_DMG" -format UDZO -imagekey zlib-level=9 -o "$DMG_NAME" -ov
+fi
 
 echo "🔐 Ad-hoc codesigning disk image..."
 codesign --force --sign - "$DMG_NAME"
