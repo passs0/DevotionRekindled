@@ -19,15 +19,20 @@ app: $(SHIM_TARGET) $(LAUNCHER_SRC)
 	mkdir -p "$(APP_BUNDLE)/Contents/MacOS" "$(APP_BUNDLE)/Contents/Resources"
 	$(CC) $(ARCH) -O2 -Wall -Wextra $(LAUNCHER_SRC) -o "$(LAUNCHER_BIN)"
 	cp -p $(SHIM_TARGET) "$(APP_BUNDLE)/Contents/MacOS/$(SHIM_TARGET)"
-	if [ -d "assets/DevotionRekindled.icon.xcassets" ] && xcrun actool --version >/dev/null 2>&1; then \
+	if [ -d "assets/DevotionRekindled.icon" ] && xcrun actool --version >/dev/null 2>&1; then \
 		echo "Compiling dynamic Assets.car..."; \
-		xcrun actool "assets/DevotionRekindled.icon.xcassets" \
+		xcrun actool "assets/DevotionRekindled.icon" \
 			--compile "$(APP_BUNDLE)/Contents/Resources" \
 			--platform macosx \
 			--minimum-deployment-target 11.0 \
 			--app-icon DevotionRekindled \
+			--enable-on-demand-resources NO \
+			--development-region en \
+			--target-device mac \
 			--output-partial-info-plist /tmp/devotion_partial.plist \
-			--output-format human-readable-text || true; \
+			--output-format human-readable-text; \
+		python3 -c 'import plistlib; a=plistlib.load(open("/tmp/devotion_partial.plist","rb")); i=plistlib.load(open("$(APP_BUNDLE)/Contents/Info.plist","rb")); i.update(a); plistlib.dump(i, open("$(APP_BUNDLE)/Contents/Info.plist","wb"))'; \
+		rm -f /tmp/devotion_partial.plist; \
 	fi
 	codesign -f -s - "$(APP_BUNDLE)/Contents/MacOS/$(SHIM_TARGET)"
 	codesign -f -s - "$(APP_BUNDLE)"

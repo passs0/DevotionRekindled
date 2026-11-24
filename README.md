@@ -42,7 +42,7 @@ When playing on a modern Mac with a **Sony PlayStation 5 DualSense Wireless Cont
 1. **Install the Base Game**:
    Ensure *Devotion* is installed at `/Applications/Devotion.app`.
 2. **Download the Release Disk Image**:
-   Go to the [**Releases**](https://github.com/passs0/DevotionRekindled/releases) page and download **`DevotionRekindled-v1.1.3.dmg`**.
+   Go to the [**Releases**](https://github.com/passs0/DevotionRekindled/releases) page and download **`DevotionRekindled-v1.1.4.dmg`**.
 3. **Drag to Applications Folder**:
    Open the downloaded `.dmg` and drag **`DevotionRekindled.app`** directly into the **`Applications`** folder shortcut.
 4. **First-Launch Gatekeeper Clearance (macOS)**:
@@ -129,7 +129,7 @@ You can also launch the game directly from the terminal using the included scrip
 1. **確認主程式位置**：
    請先確認《還願》主程式已安裝於 `/Applications/Devotion.app`。
 2. **下載 Release 磁碟映像檔**：
-   前往本專案的 [**Releases**](https://github.com/passs0/DevotionRekindled/releases) 頁面，下載 **`DevotionRekindled-v1.1.3.dmg`**。
+   前往本專案的 [**Releases**](https://github.com/passs0/DevotionRekindled/releases) 頁面，下載 **`DevotionRekindled-v1.1.4.dmg`**。
 3. **拖曳至「應用程式」資料夾**：
    開啟下載的 `.dmg` 檔案，將 **`DevotionRekindled.app`** 直接拖曳至 **`Applications`** 捷徑中。
 4. **首次執行解除 macOS 隔離屬性**：
