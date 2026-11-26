@@ -162,11 +162,9 @@ make install
 
 ---
 
-## AI Scope
+Built with [Google Antigravity](https://antigravity.google) — 100% AI-written code and assets, steered and playtested end-to-end by hand.
 
-All code, reverse engineering, assets, and documentation in this project were generated with [Google Antigravity](https://antigravity.google). Human involvement was limited to direction and full in-game playtesting.
-
-本專案所有程式碼、逆向分析、圖示封裝與說明文件皆由 [Google Antigravity](https://antigravity.google) 生成，人類僅參與方向確認與完整實機通關測試。
+由 [Google Antigravity](https://antigravity.google) 生成所有程式碼與封裝，人類負責方向確認與完整實機通關測試。
 
 ## License
 
