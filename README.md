@@ -16,13 +16,6 @@
 
 ---
 
-> 🤖 **AI-Generated Project Notice / AI 全自動生成專案聲明**
->
-> - **English**: **100% of the code, reverse engineering, low-level IOKit/Mono/Objective-C runtime interposition architecture, FPS booster, app bundle, icon, and documentation in this repository were generated entirely by AI (Google DeepMind Antigravity). Human involvement was strictly limited to in-game playtesting (verified through a full end-to-end game completion).**
-> - **繁體中文（臺灣）**：**本專案中 100% 的程式碼、底層 IOKit / Mono / Objective-C Runtime 動態攔截架構、120Hz 畫面更新率最佳化引擎、逆向工程分析、應用程式封裝、圖示設計與說明文件，皆完全由 AI（Google DeepMind Antigravity）獨立撰寫生成；人類在開發過程中的參與僅限於實際進入遊戲進行實機遊玩測試（已完整通關全遊戲驗證）。**
-
----
-
 ## 📖 English Guide
 
 ### Overview
@@ -166,3 +159,13 @@ make install
 ```bash
 ./launch_devotion.command
 ```
+
+---
+
+**AI scope:** All code, reverse engineering, assets, and documentation were generated with [Google Antigravity](https://antigravity.google); human involvement was limited to direction and full in-game playtesting.
+
+**AI 生成範圍：** 本專案所有程式碼、逆向分析、圖示封裝與說明文件皆由 [Google Antigravity](https://antigravity.google) 生成，人類僅參與方向確認與完整實機通關測試。
+
+## License
+
+[MIT](LICENSE)
