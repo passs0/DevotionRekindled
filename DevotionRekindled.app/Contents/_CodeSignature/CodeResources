@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AppIcon.icns</key>
 		<data>
-		QNdlZ5QaNQAL7Z7RvYpiwctLGzc=
+		AIeXjt1pBV1mj3AJE+IgnzRz+Vk=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,16 +15,16 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			RgVtJoKBU4R3zAq/+NDlJ/iQ03o=
+			sP2apKWj0V+ss8XZ2gUpSqvBX04=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"46056d268281538477cc0abff8d0e527f890d37a" or cdhash H"cec27fc37b0a515bf28dad5846124644412eb011"</string>
+			<string>cdhash H"b0fd9aa4a5a3d15facb3c5d9da05294aabc15f4e" or cdhash H"3e2b13d81114dcb8151606ac7bb3abd921b7993f"</string>
 		</dict>
 		<key>Resources/AppIcon.icns</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NiHIbkXzPZsQmdR3mQQQJ9VIPs/9Zo2vV77TLNfIjB4=
+			kUNdNxeiU554nwOggiCSMYxskLxCIkWRIAh1y+KOUTk=
 			</data>
 		</dict>
 	</dict>

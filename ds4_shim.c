@@ -28,7 +28,17 @@ static const char *get_log_path(void) {
     return (env_path && env_path[0]) ? env_path : "/tmp/ds4_shim_debug.log";
 }
 
+static bool is_debug_enabled(void) {
+    static int cached = -1;
+    if (cached < 0) {
+        const char *env = getenv("DS4_DEBUG");
+        cached = (env && env[0] == '1') ? 1 : 0;
+    }
+    return cached == 1;
+}
+
 static void log_msg(const char *fmt, ...) {
+    if (!is_debug_enabled()) return;
     pthread_mutex_lock(&g_log_mutex);
     if (!g_log_fp) {
         g_log_fp = fopen(get_log_path(), "a");
@@ -475,10 +485,13 @@ static void cache_elements_for_device_locked(IOHIDDeviceRef dev, IOHIDElementRef
         uint32_t u = IOHIDElementGetUsage(el);
 
         if (up == 0x09 && u >= 1 && u <= 14) {
+            if (g_cached_btn_vals[u][0]) CFRelease(g_cached_btn_vals[u][0]);
+            if (g_cached_btn_vals[u][1]) CFRelease(g_cached_btn_vals[u][1]);
             g_cached_btn_vals[u][0] = IOHIDValueCreateWithIntegerValue(kCFAllocatorDefault, el, 0, 0);
             g_cached_btn_vals[u][1] = IOHIDValueCreateWithIntegerValue(kCFAllocatorDefault, el, 0, 1);
         } else if (up == 0x01 && u == 0x39) {
             for (int h = 0; h <= 8; h++) {
+                if (g_cached_hat_vals[h]) CFRelease(g_cached_hat_vals[h]);
                 g_cached_hat_vals[h] = IOHIDValueCreateWithIntegerValue(kCFAllocatorDefault, el, 0, h);
             }
         } else if (up == 0x01) {
@@ -494,6 +507,7 @@ static void cache_elements_for_device_locked(IOHIDDeviceRef dev, IOHIDElementRef
             }
             if (ax >= 0) {
                 for (int v = 0; v <= 255; v++) {
+                    if (g_cached_axis_vals[ax][v]) CFRelease(g_cached_axis_vals[ax][v]);
                     g_cached_axis_vals[ax][v] = IOHIDValueCreateWithIntegerValue(kCFAllocatorDefault, el, 0, v);
                 }
             }
@@ -544,6 +558,7 @@ static void init_dualsense_bridge(IOHIDDeviceRef dev) {
 
     if (!vendor_elem) {
         log_msg("[ds4_shim] Note: Vendor element 0xff00:0x3b not found or not required\n");
+        if (g_priv_dev) { CFRelease(g_priv_dev); g_priv_dev = NULL; }
         pthread_mutex_unlock(&g_bridge_mutex);
         return;
     }
@@ -552,6 +567,7 @@ static void init_dualsense_bridge(IOHIDDeviceRef dev) {
     g_priv_queue = IOHIDQueueCreate(kCFAllocatorDefault, dev, 64, 0);
     if (!g_priv_queue) {
         log_msg("[ds4_shim] Failed to create private IOHIDQueue\n");
+        if (g_priv_dev) { CFRelease(g_priv_dev); g_priv_dev = NULL; }
         pthread_mutex_unlock(&g_bridge_mutex);
         return;
     }
@@ -560,7 +576,9 @@ static void init_dualsense_bridge(IOHIDDeviceRef dev) {
     IOHIDQueueStart(g_priv_queue);
 
     g_running = 1;
-    pthread_create(&g_reader_th, NULL, reader_thread, g_priv_queue);
+    if (pthread_create(&g_reader_th, NULL, reader_thread, g_priv_queue) == 0) {
+        pthread_detach(g_reader_th);
+    }
 
     g_bridge_initialized = true;
     log_msg("[ds4_shim] Bridge initialized successfully! DualSense mapped to DS4.\n");

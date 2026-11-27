@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$SCRIPT_DIR"
 
 APP_NAME="DevotionRekindled"
-VERSION="1.1.3"
+VERSION="1.1.5"
 DMG_NAME="DevotionRekindled-v${VERSION}.dmg"
 STAGING_DIR="/tmp/devotion_dmg_staging"
 RW_DMG="/tmp/devotion_rw.dmg"
