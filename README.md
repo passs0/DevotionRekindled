@@ -26,7 +26,7 @@
 ## Install
 
 1. Make sure *Devotion* is installed at `/Applications/Devotion.app`.
-2. Download **`DevotionRekindled-v1.1.4.dmg`** from [Releases](https://github.com/passs0/DevotionRekindled/releases/latest) and drag `DevotionRekindled.app` to `/Applications`.
+2. Download the `.dmg` from [Releases](https://github.com/passs0/DevotionRekindled/releases/latest) and drag `DevotionRekindled.app` to `/Applications`.
 3. Clear Gatekeeper on first launch, pair your DualSense over Bluetooth, and open **DevotionRekindled**:
 ```zsh
 xattr -cr /Applications/DevotionRekindled.app
