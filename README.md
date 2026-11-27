@@ -38,6 +38,8 @@ git clone https://github.com/passs0/DevotionRekindled.git && cd DevotionRekindle
 make && make install
 ```
 
+## Credits
+
 Built with [Google Antigravity](https://antigravity.google) — 100% AI-written code and assets, steered and playtested end-to-end by hand.
 
 ## License
